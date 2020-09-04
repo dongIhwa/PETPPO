@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<!--
+	Theory by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		{% load static %}
+		<title>PETPPO Login</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+	</head>
+	<body class="subpage">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a href="/welcome/" class="logo">PETPPO</a>
+					<nav id="nav">
+						<a href="/welcome/">Home</a>
+						<a href="/review/location/">병원으로 찾기</a>
+						<a href="/review/symptom/">병명으로 찾기</a>
+						{% if user.is_authenticated %}
+							<a href="/review/write/">리뷰작성하기</a>
+							<a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a>
+						{% else %}
+							<a class="nav-link" href="{% url 'common:login' %}">로그인</a>
+							<a href="/users/signup/">회원가입</a>
+						{% endif %}
+					</nav>
+					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+				</div>
+			</header>
+
+		<!-- Three -->
+			<section id="three" class="wrapper">
+				<div class="inner">
+					<header class="align-center">
+						<h2 style="font-weight:bold;font-size:50px;">로그인</h2>
+						<p style="font-size:25px;">이미 PETPPO와 함께 하고 계신가요?</p>
+					</header>
+					<p></p>
+					<div class="flex flex-2">
+						<div class="container my-3" id ="loginform" >
+                            <form method="post" class="post-form" action="{% url 'common:login' %}">
+                                {% csrf_token %}
+                                {% include "form_errors.html" %}
+								<br>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="username" id="username"
+                                           value="{{ form.username.value|default_if_none:'' }}" placeholder="아이디(이메일)를 입력하세요"
+										   style="width:70%;height:60px;margin:auto;">
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <input type="password" class="form-control" name="password" id="password"
+                                           value="{{ form.password.value|default_if_none:'' }}" placeholder="비밀번호를 입력하세요"
+										   style="width:70%;height:60px;margin:auto;">
+                                </div>
+                                <br>
+                                <div style="width:70%;text-align:center;margin:auto;">
+                                <button type="submit" class="btn btn-primary" id="loginbtn"
+										style="background-color:#25553d;width:100%;height:60px;font-size:20px;vertical-align:center;">로그인</button><br><br>
+								아직 함께하고 있지 않으신가요? <a href="/users/signup/">회원가입</a>
+                                </div>
+                            </form>
+                        </div>
+					</div>
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<div class="flex">
+						<div class="copyright">
+							&copy; Untitled. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>.
+						</div>
+					</div>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'assets/js/skel.min.js' %}"></script>
+			<script src="{% static 'assets/js/util.js' %}"></script>
+			<script src="{% static 'assets/js/main.js' %}"></script>
+
+	</body>
+</html>

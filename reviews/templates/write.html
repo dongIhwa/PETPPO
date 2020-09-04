@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<!--
+	Theory by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		{% load static %}
+		<title>PETPPO 리뷰 작성하기</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="{% static 'assets/css/main.css' %}" />
+
+	</head>
+	<body class="subpage">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a href="/welcome/" class="logo">PETPPO</a>
+					<nav id="nav">
+						<a href="/welcome/">Home</a>
+						<a href="/review/location/">병원으로 찾기</a>
+						<a href="/review/symptom/?symp_filter=전체">병명으로 찾기</a>
+						{% if user.is_authenticated %}
+							<a href="/review/write/">리뷰작성하기</a>
+							<a href="/users/mypage/">마이페이지</a>
+							<a class="nav-link" href="{% url 'common:logout' %}">{{ user.username }} (로그아웃)</a>
+						{% else %}
+							<a class="nav-link" href="{% url 'common:login' %}">로그인</a>
+							<a href="/users/signup/">회원가입</a>
+						{% endif %}
+					</nav>
+					<a href="#navPanel" class="navPanelToggle"><span class="fa fa-bars"></span></a>
+				</div>
+			</header>
+
+		<!-- Three -->
+			<section id="three" class="wrapper">
+				<div class="inner">
+					{% if user.is_authenticated %}
+					<header class="align-center">
+						<h2 style="font-weight:bold;font-size:50px;">리뷰 작성</h2>
+						<p style="font-size:25px;">당신의 경험을 들려주세요 </p>
+					</header>
+					<form method="post" enctype="multipart/form-data">
+								{% csrf_token %}
+							<input type="hidden" name="nickname_id" value="{{user.username}}">
+								<table>
+									<tr>
+										<td><strong>제목을 작성해주세요</strong></td>
+										<td><input type="text" name="title" required></td>
+									</tr>
+									<tr>
+										<td><strong>언제 방문하셨나요</strong></td>
+										<td><input type="datetime-local" name="visitdate" required></td>
+									</tr>
+									<tr>
+										<td><strong>어떤 증상으로 병원을 찾았나요</strong></td>
+										<td>
+											<select name="symp_id">
+												<option value="안구">안구</option>
+												<option value="구강">구강</option>
+												<option value="귀">귀</option>
+												<option value="피부">피부</option>
+												<option value="암">암</option>
+												<option value="뼈/관절">뼈/관절</option>
+												<option value="순환기">순환기</option>
+												<option value="비뇨기/생식기">비뇨기/생식기</option>
+												<option value="호르몬">호르몬</option>
+												<option value="알레르기">알레르기</option>
+												<option value="뇌/신경">뇌/신경</option>
+											</select>
+										</td>
+									</tr>
+									<tr>
+										<td><strong>병원 이름을 알려주세요</strong></td>
+										<td><input type="text" name="location" width="1000" required></td>
+									</tr>
+									<tr>
+										<td style="vertical-align:top;"><strong>병원은 어때요</strong></td>
+										<td><textarea rows="7" name="content" required></textarea></td>
+									</tr>
+									<tr>
+										<td><strong>영수증을 첨부해주세요</strong></td>
+										<td><input type="file" name="receipt" required></td>
+									</tr>
+									<tr>
+										<td><strong>얼마나 만족하셨나요</strong></td>
+										<td>
+											<section>
+												<input type="radio" id="heart_5" name="rate" value="5">
+												<label for="heart_5" title="Five">&#10084; 5</label>
+												<input type="radio" id="heart_4" name="rate" value="4">
+												<label for="heart_4" title="Four">&#10084; 4</label>
+												<input type="radio" id="heart_3" name="rate" value="3">
+												<label for="heart_3" title="Three">&#10084; 3</label>
+												<input type="radio" id="heart_2" name="rate" value="2">
+												<label for="heart_2" title="Two">&#10084; 2</label>
+												<input type="radio" id="heart_1" name="rate" value="1">
+												<label for="heart_1" title="One">&#10084; 1</label>
+											</section>
+										</td>
+									</tr>
+									<tr style="text-align:center;">
+										<td><input type="submit" value="다 작성했어요"></td>
+										<td><input type="reset" value="다시 작성할래요" class="alt"></td>
+									</tr>
+								</table>
+							</form>
+					{% else %}
+					<h2 style="text-align:center;">로그인이 필요한 페이지입니다.</h2>
+					<p style="text-align:center;"><a href="/common/login/" class="button special">로그인</a>
+						<a href="/users/signup/" class="button special">회원가입</a></p>
+					{% endif %}
+					<div class="flex flex-2">
+						<article>
+							<div class="image fit">
+								<img src="{% static 'images/pic01.jpg' %}" alt="Pic 01">
+							</div>
+							<header style="font-weight:bold;">
+								<h3 style="display:inline;font-weight:bold;">병명으로 찾기&nbsp</h3>
+								<p style="display:inline;">&nbsp반려동물의 병을 고쳐줄 명의를 찾아보세요</p>
+							</header>
+							<br>
+							<footer>
+								<a href="/review/symptom/?symp_filter=전체" class="button special" style="width:100%;">
+									리뷰 찾아보기</a>
+							</footer>
+						</article>
+						<article>
+							<div class="image fit">
+								<img src="{% static 'images/pic02.jpg' %}" alt="Pic 02" />
+							</div>
+							<header style="font-weight:bold;">
+								<h3 style="display:inline;font-weight:bold;">병원으로 찾기&nbsp</h3>
+								<p style="display:inline;">&nbsp당신 주위의 명의를 찾아보세요</p>
+							</header>
+							<br>
+							<footer>
+								<a href="/review/location/" class="button special" style="width:100%;">리뷰 찾아보기</a>
+							</footer>
+						</article>
+					</div>
+				</div>
+			</section>
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<div class="flex">
+						<div class="copyright">
+							&copy; Untitled. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Unsplash</a>.
+						</div>
+					</div>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+			<script src="{% static 'assets/js/skel.min.js' %}"></script>
+			<script src="{% static 'assets/js/util.js' %}"></script>
+			<script src="{% static 'assets/js/main.js' %}"></script>
+	</body>
+</html>
